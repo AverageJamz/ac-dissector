@@ -1,29 +1,36 @@
 -- 0xF658
 
+fields.MsgCharacterListObjectId      = ProtoField.uint32("ac.msg.char_list.obj_id", "ObjectID",  base.HEX)
+fields.MsgCharacterListCharacterName = ProtoField.string("ac.msg.char_list.char_name", "Name")
+fields.MsgCharacterListDeleteTimeout = ProtoField.uint32("ac.msg.char_list.del_timeout", "Delete timeout")
+fields.MsgCharacterListSlotCount     = ProtoField.uint32("ac.msg.char_list.slot_count", "Slot count")
+fields.MsgCharacterListZoneName      = ProtoField.string("ac.msg.char_list.zone_name", "Zone name")
+fields.MsgCharacterListChatEnabled   = ProtoField.uint32("ac.msg.char_list.chat_enabled", "Chat enabled")
+
 function msgCharacterList(message, tree)
-  tree = tree:add("Character List")
-  pos = pos + 4 -- unknown
-  local char_count = fragments(pos, 4):le_uint(); pos = pos + 4
-  t:add("Count", char_count)
+  local tree = tree:add("Character List")
+  local offset = 4
+
+  tree:add_le(fields.FieldUnknownDWORD, message(offset, 4)); offset = offset + 4
+
+  local char_count = message(offset, 4):le_uint()
+  tree:add("Count", char_count); offset = offset + 4
+
   for i=1, char_count do
-    local c = t:add("Character")
-    local obj_id = fragments(pos, 4):le_uint(); pos = pos + 4
-    local name_len = fragments(pos, 2):le_uint(); pos = pos + 2
-    local name = fragments(pos, name_len):string()
-    pos = pos + name_len + calc_pad(name_len+2, 4)
-    local delete_timeout = fragments(pos, 4):le_uint(); pos = pos + 4
-    c:add("ObjectID:", obj_id, base.HEX)
-    c:add("Name:", name)
-    c:add("Delete Timeout:", delete_timeout)
+    local tree = tree:add("Character")
+    tree:add_le(fields.MsgCharacterListObjectId, message(offset, 4)); offset = offset + 4
+    local name_len = message(offset, 2):le_uint(); offset = offset + 2
+    local name_pad = calc_pad(name_len + 2, 4)
+    tree:add(fields.MsgCharacterListCharacterName, message(offset, name_len + name_pad)); offset = offset + name_len + name_pad
+    tree:add_le(fields.MsgCharacterListDeleteTimeout, message(offset, 4)); offset = offset + 4
   end
-  pos = pos + 4
-  local slot_count = fragments(pos, 4):le_uint(); pos = pos + 4
-  t:add("Slot count:", slot_count)
-  local zone_name_len = fragments(pos, 2):le_uint(); pos = pos + 2
-  local zone_name = fragments(pos, zone_name_len):string()
-  pos = pos + zone_name_len + calc_pad(zone_name_len+2, 4)
-  local turbine_chat_enabled = fragments(pos, 4):le_uint(); pos = pos + 4
-  pos = pos + 4
-  t:add("Zone name:", zone_name)
-  t:add("Turbine chat enabled:", turbine_chat_enabled)
+
+  tree:add_le(fields.FieldUnknownDWORD, message(offset, 4)); offset = offset + 4
+  tree:add_le(fields.MsgCharacterListSlotCount, message(offset, 4)); offset = offset + 4
+  
+  local zone_name_len = message(offset, 2):le_uint(); offset = offset + 2
+  local zone_name_pad = calc_pad(zone_name_len + 2, 4)
+  tree:add(fields.MsgCharacterListZoneName, message(offset, zone_name_len + zone_name_pad)); offset = offset + zone_name_len + zone_name_pad
+  tree:add_le(fields.MsgCharacterListChatEnabled, message(offset, 4)); offset = offset + 4
+  tree:add_le(fields.FieldUnknownDWORD, message(offset, 4)); offset = offset + 4
 end

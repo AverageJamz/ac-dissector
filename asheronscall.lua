@@ -1,4 +1,4 @@
-local path = persconffile_path("Asheron's Call\\")
+local path = persconffile_path("ac-dissector\\")
 local ac = Proto("ac", "Asheron's Call")
 
 local PacketHeaderFlags = {
@@ -73,7 +73,7 @@ function process_message(message, tree)
   elseif msg == 0xF625 then
   elseif msg == 0xF657 then
   elseif msg == 0xF658 then
-    -- msgCharacterList(message, tree)
+    msgCharacterList(message, tree)
   elseif msg == 0xF659 then
   elseif msg == 0xF745 then
   elseif msg == 0xF746 then
