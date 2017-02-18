@@ -70,6 +70,7 @@ function process_message(message, tree)
   local msg = message(0, 4):le_uint()
   tree:add_le(fields.MessageID, message(0, 4))
   if msg == 0xF619 then
+    msgLifestoneMaterialize(message, tree)
   elseif msg == 0xF625 then
   elseif msg == 0xF657 then
   elseif msg == 0xF658 then
