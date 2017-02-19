@@ -42,4 +42,30 @@ function msgLifestoneMaterialize(message, tree)
   postree:add_le(fields.MsgLifestoneMaterializePositionX, message(16, 4))
   postree:add_le(fields.MsgLifestoneMaterializePositionY, message(20, 4))
   postree:add_le(fields.MsgLifestoneMaterializePositionZ, message(24, 4))
+
+  local orientationtree = tree:add("Orientation")
+  local flags = bit32.bxor(message(8, 4):le_uint(), 0x00000078)
+
+  if bit32.btest(flags, PositionFlags.VelocityVectorPresent) then
+
+  end
+  if bit32.btest(flags, PositionFlags.Unknown) then
+
+  end
+  if bit32.btest(flags, PositionFlags.ObjectGrounded) then
+
+  end
+  if bit32.btest(flags, PositionFlags.OrientationQuartNoW) then
+
+  end
+  if bit32.btest(flags, PositionFlags.OrientationQuartNoX) then
+
+  end
+  if bit32.btest(flags, PositionFlags.OrientationQuartNoY) then
+
+  end
+  if bit32.btest(flags, PositionFlags.OrientationQuartNoZ) then
+
+  end
+
 end
