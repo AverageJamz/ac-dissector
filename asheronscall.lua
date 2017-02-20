@@ -33,6 +33,12 @@ fields.Time           = ProtoField.uint16("ac.time", "Time", base.DEC)
 fields.Size           = ProtoField.uint16("ac.size", "Size", base.DEC)
 fields.Table          = ProtoField.uint16("ac.table", "Table", base.HEX)
 
+fields.OptionalAckSequence          = ProtoField.uint32("ac.opt.ack_seq", "Ack Sequence #")
+fields.OptionalTimeSynch            = ProtoField.double("ac.opt.time_synch", "Time synch")
+fields.OptionalEchoRequest          = ProtoField.float("ac.opt.echo_req", "Client time")
+fields.OptionalFlowA                = ProtoField.uint32("ac.opt.flow_a", "FlowA (???)")
+fields.OptionalFlowB                = ProtoField.uint16("ac.opt.flow_b", "FlowB (???)")
+
 fields.FragmentHeaderSequenceNumber = ProtoField.uint32("ac.frag_header.seq_num", "Sequence number", base.DEC)
 fields.FragmentHeaderID             = ProtoField.uint32("ac.frag_header.id", "ID", base.HEX)
 fields.FragmentHeaderCount          = ProtoField.uint16("ac.frag_header.count", "Count", base.DEC)
@@ -184,7 +190,7 @@ function ac.dissector(buffer, pinfo, tree)
     offset = offset + (count * 4)
   end
   if bit32.btest(flags, PacketHeaderFlags.AckSequence) then
-    offset = offset + 4
+    subtree:add_le(fields.OptionalAckSequence , buffer(offset, 4)); offset = offset + 4
   end
   -- if bit32.btest(flags, PacketHeaderFlags.Disconnect) then
 
@@ -205,16 +211,17 @@ function ac.dissector(buffer, pinfo, tree)
     offset = offset + 8
   end
   if bit32.btest(flags, PacketHeaderFlags.TimeSynch) then
-    offset = offset + 8
+    subtree:add_le(fields.OptionalTimeSynch , buffer(offset, 8)); offset = offset + 8
   end
   if bit32.btest(flags, PacketHeaderFlags.EchoRequest) then
-    offset = offset + 4
+    subtree:add_le(fields.OptionalEchoRequest , buffer(offset, 4)); offset = offset + 4
   end
   if bit32.btest(flags, PacketHeaderFlags.EchoResponse) then
     offset = offset + 8
   end
   if bit32.btest(flags, PacketHeaderFlags.Flow) then
-    offset = offset + 6
+    subtree:add_le(fields.OptionalFlowA , buffer(offset, 4)); offset = offset + 4
+    subtree:add_le(fields.OptionalFlowB , buffer(offset, 2)); offset = offset + 2
   end
   if bit32.btest(flags, PacketHeaderFlags.BlobFragments) then
     local fragtree = subtree:add("Fragments")
