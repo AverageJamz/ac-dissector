@@ -37,7 +37,7 @@ fields.OptionalAckSequence          = ProtoField.uint32("ac.opt.ack_seq", "Ack S
 fields.OptionalTimeSynch            = ProtoField.double("ac.opt.time_synch", "Time synch")
 fields.OptionalEchoRequest          = ProtoField.float("ac.opt.echo_req", "Client time")
 fields.OptionalFlowA                = ProtoField.uint32("ac.opt.flow_a", "FlowA (???)")
-fields.OptionalFlowB                = ProtoField.uint16("ac.opt.flow_b", "FlowB (???)")
+fields.OptionalFlowB                = ProtoField.uint16("ac.opt.flow_b", "FlowB (related to Time field?)")
 
 fields.FragmentHeaderSequenceNumber = ProtoField.uint32("ac.frag_header.seq_num", "Sequence number", base.DEC)
 fields.FragmentHeaderID             = ProtoField.uint32("ac.frag_header.id", "ID", base.HEX)
