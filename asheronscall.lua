@@ -86,6 +86,7 @@ function process_message(message, tree)
     msgCharacterLoginFailure(message, tree)
   elseif msg == 0xF745 then
   elseif msg == 0xF746 then
+    msgLoginCharacter(message, tree)
   elseif msg == 0xF747 then
   elseif msg == 0xF748 then
   elseif msg == 0xF749 then
