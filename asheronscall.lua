@@ -79,6 +79,7 @@ function process_message(message, tree)
     msgLifestoneMaterialize(message, tree)
   elseif msg == 0xF625 then
   elseif msg == 0xF657 then
+    msgRequestLogin(message, tree)
   elseif msg == 0xF658 then
     msgCharacterList(message, tree)
   elseif msg == 0xF659 then
@@ -151,8 +152,7 @@ function ac.dissector(buffer, pinfo, tree)
   pinfo.cols.protocol = "AC"
 
   local subtree = tree:add(ac, buffer(), "Asheron's Call Data")
-  subtree:add_le(fields.SequenceNumber, buffer(offset, 4))
-  offset = offset + 4
+  subtree:add_le(fields.SequenceNumber, buffer(offset, 4)); offset = offset + 4
   
   local flagtree = subtree:add_le(fields.Flags, buffer(offset, 4))
   process_flags(buffer(offset, 4):le_uint(), flagtree)
