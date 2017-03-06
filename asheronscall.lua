@@ -91,6 +91,7 @@ function process_message(message, tree)
     msgRemoveItem(message, tree)
   elseif msg == 0xF748 then
   elseif msg == 0xF749 then
+    msgWieldObject(message, tree)
   elseif msg == 0xF74A then
   elseif msg == 0xF74B then
   elseif msg == 0xF74C then
