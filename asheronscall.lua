@@ -88,6 +88,7 @@ function process_message(message, tree)
   elseif msg == 0xF746 then
     msgLoginCharacter(message, tree)
   elseif msg == 0xF747 then
+    msgRemoveItem(message, tree)
   elseif msg == 0xF748 then
   elseif msg == 0xF749 then
   elseif msg == 0xF74A then
