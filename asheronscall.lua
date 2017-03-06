@@ -95,6 +95,7 @@ function process_message(message, tree)
   elseif msg == 0xF74A then
     msgMoveObjectIntoInventory(message, tree)
   elseif msg == 0xF74B then
+    msgToggleObjectVisibility(message, tree)
   elseif msg == 0xF74C then
   elseif msg == 0xF74E then
   elseif msg == 0xF750 then
