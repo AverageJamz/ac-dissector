@@ -100,6 +100,7 @@ function process_message(message, tree)
   elseif msg == 0xF74E then
     msgJumping(message, tree)
   elseif msg == 0xF750 then
+    msgApplySoundEffect(message, tree)
   elseif msg == 0xF751 then
   elseif msg == 0xF755 then
   elseif msg == 0xF7B0 then
