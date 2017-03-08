@@ -1,4 +1,4 @@
--- 0xF750
+-- 0xF755
 
 fields.MsgApplySoundVisualEffectObject    = ProtoField.uint32("ac.msg.apply_snd_vis_fx.obj", "ObjectID",  base.HEX)
 fields.MsgApplySoundVisualEffectEffect    = ProtoField.uint32("ac.msg.apply_snd_vis_fx.fx", "Effect", base.HEX)
