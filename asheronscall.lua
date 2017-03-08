@@ -104,6 +104,7 @@ function process_message(message, tree)
   elseif msg == 0xF751 then
     msgEnterPortalMode(message, tree)
   elseif msg == 0xF755 then
+    msgApplySoundVisualEffect(message, tree)
   elseif msg == 0xF7B0 then
   elseif msg == 0xF7B1 then
   elseif msg == 0xF7DE then
