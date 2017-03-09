@@ -1,4 +1,4 @@
-local path = persconffile_path("ac-dissector\\")
+local path = persconffile_path("ac-dissector")
 local ac = Proto("ac", "Asheron's Call")
 
 local PacketHeaderFlags = {
@@ -55,11 +55,17 @@ fields.MessageID = ProtoField.uint32("ac.msg_id", "Message ID", base.HEX)
 fields.MessageUnknown = ProtoField.uint32("ac.msg_unknown", "Unknown", base.HEX)
 
 -- load utility functions
-dofile(path .. "util.lua")
+info("Loading " .. path .. "/util.lua")
+dofile(path .. "/util.lua")
 
 -- load Message definitions
-for f in Dir.open(path .. "messages") do
-  dofile(path .. "messages\\" .. f)
+local msg_dir = path .. "/messages"
+for f in Dir.open(msg_dir) do
+  if f:match(".lua$") then
+    local msg_path = msg_dir .. "/" .. f
+    message("Loading " .. msg_path)
+    dofile(msg_path)
+  end
 end
 
 function process_flags(flags, tree)
