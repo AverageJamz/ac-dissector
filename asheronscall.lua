@@ -114,6 +114,7 @@ function process_message(message, tree)
   elseif msg == 0xF7B0 then
     msgGameEvent(message, tree)
   elseif msg == 0xF7B1 then
+    msgGameAction(message, tree)
   elseif msg == 0xF7DE then
   elseif msg == 0xF7E0 then
   elseif msg == 0xF7E1 then
